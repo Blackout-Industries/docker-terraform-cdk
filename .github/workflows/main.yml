@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted, linux, x64, gpu]
+    runs-on: [self-hosted, linux, docker]
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
