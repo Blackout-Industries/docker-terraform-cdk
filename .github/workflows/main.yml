@@ -14,7 +14,7 @@ jobs:
     - name: Build the Docker image
       shell: bash -leo pipefail {0}
       run: |
-          env
+          cat $HOME/.bashrc
           echo $DOCKER_USERNAME
           echo "docker_username=$DOCKER_USERNAME" >> $GITHUB_ENV
           echo "docker_pat=$DOCKER_PAT" >> $GITHUB_ENV
