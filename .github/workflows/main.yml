@@ -12,8 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
+      shell: bash -leo pipefail {0}
       run: |
-          source $HOME/.bashrc
           echo $DOCKER_USERNAME
           echo "docker_username=$DOCKER_USERNAME" >> $GITHUB_ENV
           echo "docker_pat=$DOCKER_PAT" >> $GITHUB_ENV
