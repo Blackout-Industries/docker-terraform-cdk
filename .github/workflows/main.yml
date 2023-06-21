@@ -15,11 +15,10 @@ jobs:
       shell: bash -leo pipefail {0}
       run: |
           source $HOME/variables.sh
-          echo ${DOCKER_USERNAME}
           echo "docker_username=$DOCKER_USERNAME" >> $GITHUB_ENV
           echo "docker_pat=$DOCKER_PAT" >> $GITHUB_ENV
-#     - name: Docker Login
-#       uses: docker/login-action@v2.2.0
-#       with:
-#         username: ${{ env.docker_username }}
-#         password: ${{ env.docker_pat }}
+    - name: Docker Login
+      uses: docker/login-action@v2.2.0
+      with:
+        username: ${{ env.docker_username }}
+        password: ${{ env.docker_pat }}
