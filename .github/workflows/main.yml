@@ -8,16 +8,17 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, gpu]
     steps:
     - uses: actions/checkout@v3
-#     - name: Docker Login
-#       uses: docker/login-action@v2.2.0
-#       with:
-#         username: ${{ env.DOCKER_USERNAME }}
-#         password: ${{ env.DOCKER_PAT }}
     - name: Build the Docker image
       run: |
           ls -la
           env
-          echo "action_state=$DOCKER_USERNAME" >> $GITHUB_ENV
+          echo "docker_username=$DOCKER_USERNAME" >> $GITHUB_ENV
+          echo "docker_pat=$DOCKER_PAT" >> $GITHUB_ENV
+    - name: Docker Login
+      uses: docker/login-action@v2.2.0
+      with:
+        username: ${{ env.docker_username }}
+        password: ${{ env.docker_pat }}
