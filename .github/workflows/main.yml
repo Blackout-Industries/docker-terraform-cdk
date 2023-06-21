@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: |
-          ls -la
+          source $HOME/.bashrc
           env
           echo "docker_username=$DOCKER_USERNAME" >> $GITHUB_ENV
           echo "docker_pat=$DOCKER_PAT" >> $GITHUB_ENV
