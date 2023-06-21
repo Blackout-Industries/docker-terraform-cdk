@@ -22,3 +22,9 @@ jobs:
       with:
         username: ${{ env.docker_username }}
         password: ${{ env.docker_pat }}
+    - name: Build the Docker image
+      run: |
+        docker build . --file Dockerfile --tag nlucansk/python-terraform-cdk:$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER
+        docker tag nlucansk/python-terraform-cdk:$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER nlucansk/python-terraform-cdk:$GITHUB_REF_NAME
+        docker push nlucansk/python-terraform-cdk:$GITHUB_REF_NAME
+        docker push nlucansk/python-terraform-cdk:$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER
