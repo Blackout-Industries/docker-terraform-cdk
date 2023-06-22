@@ -62,7 +62,7 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-$GITHUB_REF_NAME-${{needs.version.outputs.build_meta}}
+        tags: nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-${{needs.version.outputs.build_meta}}
         
           
 #        docker build . --file Dockerfile --tag nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-$GITHUB_REF_NAME-${{needs.version.outputs.build_meta}}
