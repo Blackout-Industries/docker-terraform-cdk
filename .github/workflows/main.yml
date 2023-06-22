@@ -11,9 +11,13 @@ jobs:
     runs-on: [self-hosted, linux, docker]
     steps:
     - uses: actions/checkout@v3
+    - name: Git Version
+      id: gitversion
+      uses: codacy/git-version@2.4.0
     - name: Build the Docker image
       shell: bash -leo pipefail {0}
       run: |
+          echo ${{ steps.version.outputs.version }}
           source $HOME/variables.sh
           echo "docker_username=$DOCKER_USERNAME" >> $GITHUB_ENV
           echo "docker_pat=$DOCKER_PAT" >> $GITHUB_ENV
