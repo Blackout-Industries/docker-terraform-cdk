@@ -46,7 +46,6 @@ jobs:
       env:
         DOCKER_LOGIN: op://cicd/docker_hub/username
         DOCKER_TOKEN: op://cicd/docker_hub/password
-        COSIGN_PRIVATE_KEY: op://cicd/cosign_private_key
         COSIGN_PASSWORD: op://cicd/cosign_password/password
         
     - name: Docker Login
@@ -75,6 +74,6 @@ jobs:
         cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
       env:
         TAGS: nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-${{needs.version.outputs.build_meta}}
-        COSIGN_PRIVATE_KEY: ${{ env.COSIGN_PRIVATE_KEY }}
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         COSIGN_PASSWORD: ${{ env.COSIGN_PASSWORD }}
         DIGEST: ${{ steps.build_push.outputs.digest }}
