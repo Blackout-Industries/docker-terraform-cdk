@@ -31,6 +31,9 @@ jobs:
 
   build:
     name: "Build"
+    permissions:
+      contents: read
+      packages: write
     needs: version
     runs-on: ubuntu-latest
     steps:
