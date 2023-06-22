@@ -7,14 +7,18 @@ on:
     branches: [ "main" ]
 
 jobs:
-  Version:
+  version:
+    name: "Version"
     runs-on: [self-hosted, linux, docker]
     container: node:14.16
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-  Build:
+  build:
+    name: "Build"
+    runs-on: [self-hosted, linux, docker]
+    steps:
     - name: Build the Docker image
       shell: bash -leo pipefail {0}
       run: |
