@@ -30,6 +30,7 @@ jobs:
     needs: version
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: Build the Docker image
       run: |
           echo ${{needs.version.outputs.build_meta}}
@@ -41,7 +42,7 @@ jobs:
           password: ${{ secrets.DOCKER_PAT }}
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag nlucansk/python-terraform-cdk:$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER
-        docker tag nlucansk/python-terraform-cdk:$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER nlucansk/python-terraform-cdk:$GITHUB_REF_NAME
+        docker build . --file Dockerfile --tag nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-$GITHUB_REF_NAME-${{needs.version.outputs.build_meta}}
+        docker tag nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-$GITHUB_REF_NAME-${{needs.version.outputs.build_meta}} nlucansk/python-terraform-cdk:$GITHUB_REF_NAME
         docker push nlucansk/python-terraform-cdk:$GITHUB_REF_NAME
-        docker push nlucansk/python-terraform-cdk:$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER
+        docker push nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-$GITHUB_REF_NAME-${{needs.version.outputs.build_meta}}
