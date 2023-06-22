@@ -58,11 +58,10 @@ jobs:
         
     - name: Build the Docker image
       run: |
-        docker buildx build \        
-          --platform linux/arm64,linux/amd64 \             
-          --tag nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-$GITHUB_REF_NAME-${{needs.version.outputs.build_meta}} \        
-          --file ./Dockerfile \        
-          --output type=image,push=true .
+          docker buildx build \        
+            --platform linux/arm64,linux/amd64 \             
+            --tag nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-$GITHUB_REF_NAME-${{needs.version.outputs.build_meta}} \        
+            --output type=image,push=true .
           
 #        docker build . --file Dockerfile --tag nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-$GITHUB_REF_NAME-${{needs.version.outputs.build_meta}}
 #        docker tag nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-$GITHUB_REF_NAME-${{needs.version.outputs.build_meta}} nlucansk/python-terraform-cdk:$GITHUB_REF_NAME
