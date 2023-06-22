@@ -17,6 +17,7 @@ jobs:
         fetch-depth: 0
   build:
     name: "Build"
+    needs: version
     runs-on: [self-hosted, linux, docker]
     steps:
     - name: Build the Docker image
