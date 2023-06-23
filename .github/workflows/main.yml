@@ -90,7 +90,7 @@ jobs:
 
     - name: Run Trivy Scan
       run: |
-        trivy ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        trivy image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           
 #     - name: Build and push
 #       id: build_push
