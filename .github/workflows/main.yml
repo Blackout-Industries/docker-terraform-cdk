@@ -78,7 +78,6 @@ jobs:
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         tags: |
-          tags: |
             type=schedule
             type=ref,event=branch
             type=ref,event=pr
@@ -104,21 +103,3 @@ jobs:
     - name: Run Trivy Scan
       run: |
         trivy image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.metadata.outputs.tags }}
-          
-#     - name: Build and push
-#       id: build_push
-#       uses: docker/build-push-action@v4
-#       with:
-#         context: .
-#         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
-#         push: true
-#         tags: nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-${{needs.version.outputs.build_meta}}
-        
-#     - name: Sign image with a key
-#       run: |
-#         cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
-#       env:
-#         TAGS: nlucansk/python-terraform-cdk:${{needs.version.outputs.build_semver}}-${{needs.version.outputs.build_meta}}
-#         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-#         COSIGN_PASSWORD: ${{ env.COSIGN_PASSWORD }}
-#         DIGEST: ${{ steps.build_push.outputs.digest }}
