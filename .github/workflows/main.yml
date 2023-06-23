@@ -81,7 +81,7 @@ jobs:
         context: .
         push: true
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: ${{needs.version.outputs.build_semver}}-${{needs.version.outputs.build_meta}}
         labels: ${{ steps.meta.outputs.labels }}
         
     - name: Install Trivy
@@ -90,7 +90,7 @@ jobs:
 
     - name: Run Trivy Scan
       run: |
-        trivy image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        trivy image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{needs.version.outputs.build_semver}}-${{needs.version.outputs.build_meta}}
           
 #     - name: Build and push
 #       id: build_push
