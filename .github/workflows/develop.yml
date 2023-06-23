@@ -2,11 +2,8 @@ name: Build.DockerImage
 
 on:
   push:
-    tags:
-      - "v*.*.*"
-  pull_request:
     branches:
-      - "main"
+      - develop
 
 env:
   REGISTRY: ghcr.io
@@ -89,7 +86,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
-        push: true
+        push: false
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
