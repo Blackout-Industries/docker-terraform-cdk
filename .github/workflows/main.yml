@@ -81,7 +81,7 @@ jobs:
         context: .
         push: true
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
-        tags: ${{needs.version.outputs.build_semver}}-${{needs.version.outputs.build_meta}}
+        tags: ghcr.io/docker-terraform-cdk:${{needs.version.outputs.build_semver}}-${{needs.version.outputs.build_meta}}
         labels: ${{ steps.meta.outputs.labels }}
         
     - name: Install Trivy
