@@ -99,7 +99,7 @@ jobs:
 
     - name: Run Trivy Scan
       run: |
-        trivy image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{needs.version.outputs.build_semver}}-${{needs.version.outputs.build_meta}}
+        trivy image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.metadata.outputs.tags }}
           
 #     - name: Build and push
 #       id: build_push
