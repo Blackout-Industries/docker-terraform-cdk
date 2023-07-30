@@ -1,0 +1,98 @@
+name: Build.DockerImage
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  
+jobs:
+  version:
+    name: "Version"
+    runs-on: ubuntu-latest
+    outputs:
+      build_meta: ${{ steps.gitversion.outputs.buildMetaData }}
+      build_semver: ${{ steps.gitversion.outputs.semVer }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0
+      with:
+        versionSpec: '5.x'
+    - name: Get Version
+      id:   gitversion
+      uses: gittools/actions/gitversion/execute@v0
+
+  build:
+    name: "Build"
+    permissions:
+      contents: read
+      packages: write
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install Cosign
+      uses: sigstore/cosign-installer@v3.0.5
+    
+    - name: Configure 1Password Service Account
+      uses: 1password/load-secrets-action/configure@v1
+      with:
+        service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+    - name: Load secret
+      id: load_secrets
+      uses: 1password/load-secrets-action@v1
+      env:
+        DOCKER_LOGIN: op://cicd/docker_hub/username
+        DOCKER_TOKEN: op://cicd/docker_hub/password
+        COSIGN_PASSWORD: op://cicd/cosign_password/password
+        
+    - name: Docker Login
+      uses: docker/login-action@v2.2.0
+      with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v4.6.0
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=sha
+
+    - name: Build and push Docker image
+      id: build_push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: false
+        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        
+    - name: Install Trivy
+      run: |
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+    - name: Run Trivy Scan
+      run: |
+        trivy image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.metadata.outputs.tags }}

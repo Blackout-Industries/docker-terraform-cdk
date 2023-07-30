@@ -9,6 +9,7 @@ RUN apk update && \
     python3 \
     python3-dev \
     openssh-client \
+    curl \
     git \
     gcompat \
     bash \
