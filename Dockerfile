@@ -19,7 +19,8 @@ RUN apt-get update && apt-get install -y \
         libbz2-dev \
         libffi-dev \
         zlib1g-dev \
-        curl
+        curl \
+        unzip
 
 RUN add-apt-repository ppa:deadsnakes/ppa
 
