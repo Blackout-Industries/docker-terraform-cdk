@@ -33,7 +33,7 @@ RUN wget "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terrafor
 RUN apt-get install -y \
         python3.11 \
         python3-pip \
-        npm
+        nodejs
 
 RUN ln -sf python3 /usr/bin/python && \
     pip3 install --no-cache --upgrade pip setuptools && \
