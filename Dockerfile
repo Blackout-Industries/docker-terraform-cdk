@@ -1,6 +1,8 @@
 FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV TERRAFORM_VERSION="1.5.4"
+
 LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 
 RUN apt-get update && apt-get install -y \
@@ -22,7 +24,8 @@ RUN apt-get update && apt-get install -y \
 RUN add-apt-repository ppa:deadsnakes/ppa
 
 RUN TER_VER="$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep tag_name | cut -d: -f2 | tr -d \"\,\v | awk '{$1=$1};1')" \
-    wget https://releases.hashicorp.com/terraform/${TER_VER}/terraform_${TER_VER}_linux_amd64.zip \
+    wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+    unzip terraform_${TER_VER}_linux_amd64.zip \ 
     mv terraform /usr/local/bin/
     
 RUN apt-get install -y \
