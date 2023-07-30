@@ -1,5 +1,6 @@
 FROM ubuntu:jammy
 
+ENV DEBIAN_FRONTEND=noninteractive
 LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 
 RUN apt-get update && apt-get install -y \
