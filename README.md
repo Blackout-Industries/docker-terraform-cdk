@@ -1,4 +1,4 @@
-# Docker | Terraform-CDK | Alpine based
+# Docker | Terraform-CDK
 
 [comment]: [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yourusername/your-repo/blob/main/LICENSE)
 
