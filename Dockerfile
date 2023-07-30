@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 
 RUN apt-get update && apt-get install -y \
-        gnupg \
+        gnupg2 \
         software-properties-common \
         wget \
         build-essential \
@@ -16,18 +16,16 @@ RUN apt-get update && apt-get install -y \
         libc6-dev \
         libbz2-dev \
         libffi-dev \
-        zlib1g-dev
+        zlib1g-dev \
+        curl
 
 RUN add-apt-repository ppa:deadsnakes/ppa
 
-RUN wget -O- https://apt.releases.hashicorp.com/gpg | \
-        gpg --dearmor | \
-        tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
-RUN  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
-        https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
-        tee /etc/apt/sources.list.d/hashicorp.list
+RUN TER_VER="$(curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep tag_name | cut -d: -f2 | tr -d \"\,\v | awk '{$1=$1};1')" \
+    wget https://releases.hashicorp.com/terraform/${TER_VER}/terraform_${TER_VER}_linux_amd64.zip \
+    mv terraform /usr/local/bin/
+    
 RUN apt-get install -y \
-        terraform \
         python3.11        
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11 
 
