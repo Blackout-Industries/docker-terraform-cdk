@@ -2,7 +2,7 @@ FROM ubuntu:jammy
 
 LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 
-RUN apt install -y gnupg software-properties-common
+RUN apt-get update && apt-get install -y gnupg software-properties-common
 
 RUN wget -O- https://apt.releases.hashicorp.com/gpg | \
         gpg --dearmor | \
