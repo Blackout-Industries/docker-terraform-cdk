@@ -27,8 +27,7 @@ RUN  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
         tee /etc/apt/sources.list.d/hashicorp.list
 RUN apt-get install -y \
         terraform \
-        python3.11
-        openssh-client
+        python3.11        
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11 
 
 RUN ln -sf python3 /usr/bin/python && \
