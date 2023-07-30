@@ -23,8 +23,8 @@ RUN apt-get update && apt-get install -y \
 
 RUN add-apt-repository ppa:deadsnakes/ppa
 
-RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
-    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip \ 
+RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     mv terraform /usr/local/bin/
     
 RUN apt-get install -y \
