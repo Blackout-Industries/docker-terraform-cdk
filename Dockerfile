@@ -22,7 +22,9 @@ RUN apt-get update && apt-get install -y \
         curl \
         unzip 
 
-RUN add-apt-repository ppa:deadsnakes/ppa
+RUN add-apt-repository ppa:deadsnakes/ppa && \
+        curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+
 
 RUN wget "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" && \
     unzip "terraform_${TERRAFORM_VERSION}_linux_amd64.zip" && \
