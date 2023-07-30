@@ -2,7 +2,22 @@ FROM ubuntu:jammy
 
 LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 
-RUN apt-get update && apt-get install -y gnupg software-properties-common
+RUN apt-get update && apt-get install -y \
+        gnupg \
+        software-properties-common \
+        wget \
+        build-essential \
+        libncursesw5-dev \
+        libssl-dev \
+        libsqlite3-dev \
+        tk-dev \
+        libgdbm-dev \
+        libc6-dev \
+        libbz2-dev \
+        libffi-dev \
+        zlib1g-dev
+
+RUN add-apt-repository ppa:deadsnakes/ppa
 
 RUN wget -O- https://apt.releases.hashicorp.com/gpg | \
         gpg --dearmor | \
@@ -12,9 +27,9 @@ RUN  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
         tee /etc/apt/sources.list.d/hashicorp.list
 RUN apt-get install -y \
         terraform \
-        python3 \
-        python3-dev \
+        python3.11
         openssh-client
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11 
 
 RUN ln -sf python3 /usr/bin/python && \
     python3 -m ensurepip && \
