@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
         libffi-dev \
         zlib1g-dev \
         curl \
-        unzip
+        unzip 
 
 RUN add-apt-repository ppa:deadsnakes/ppa
 
@@ -30,7 +30,8 @@ RUN wget "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terrafor
     
 RUN apt-get install -y \
         python3.11 \
-        python3-pip
+        python3-pip \
+        npm
 
 RUN ln -sf python3 /usr/bin/python && \
     pip3 install --no-cache --upgrade pip setuptools && \
