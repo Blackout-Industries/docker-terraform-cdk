@@ -1,20 +1,16 @@
-FROM node:lts-alpine3.18
+FROM ubuntu:jammy
 
 LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 
-RUN apk update && \
-    apk upgrade && \
-    apk add \
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y \
     terraform \
     python3 \
     python3-dev \
     openssh-client \
     curl \
-    git \
-    gcompat \
-    bash \
-    sudo \
-    shadow
+    git
 
 RUN ln -sf python3 /usr/bin/python && \
     python3 -m ensurepip && \
