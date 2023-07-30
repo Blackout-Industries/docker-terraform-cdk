@@ -16,9 +16,7 @@ RUN apt-get update && \
         terraform \
         python3 \
         python3-dev \
-        openssh-client \
-        curl \
-        git
+        openssh-client
 
 RUN ln -sf python3 /usr/bin/python && \
     python3 -m ensurepip && \
