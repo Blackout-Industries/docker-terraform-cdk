@@ -29,8 +29,8 @@ RUN wget "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terrafor
     mv terraform /usr/local/bin/
     
 RUN apt-get install -y \
-        python3.11        
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11 
+        python3.11 \
+        python3-pip
 
 RUN ln -sf python3 /usr/bin/python && \
     pip3 install --no-cache --upgrade pip setuptools && \
