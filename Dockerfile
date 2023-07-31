@@ -26,8 +26,8 @@ RUN add-apt-repository ppa:deadsnakes/ppa && \
         curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 
-RUN wget "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip" && \
-    unzip "terraform_${TERRAFORM_VERSION}_linux_amd64.zip" && \
+RUN wget "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_arm64.zip" && \
+    unzip "terraform_${TERRAFORM_VERSION}_linux_arm64.zip" && \
     mv terraform /usr/local/bin/
     
 RUN apt-get install -y \
