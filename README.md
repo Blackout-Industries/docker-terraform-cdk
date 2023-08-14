@@ -1,8 +1,4 @@
-# Docker | Terraform-CDK
-
-[comment]: [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/yourusername/your-repo/blob/main/LICENSE)
-
-This image contain terraform cdk
+# 🐳  Docker | Terraform-CDK 🐳 
 
 ## Prerequisites
 
@@ -35,6 +31,19 @@ Image is compatible with :
         pipenv run cdktf deploy --auto-approve '*'
 ```
 
-### Github TBD
-
+### Github
+```yaml
+cdk:
+    name: "CDK.Cloudflare"
+    container:
+      image: ghcr.io/l33t-sh/docker-terraform-cdk:latest
+    ....
+    steps:
+    ...
+    - run: |
+        WORKDIR=$(pwd)
+        cd ${WORKDIR}/some-cdk-stuff
+        pipenv install constructs cdktf ....
+        pipenv run cdktf deploy --parallelism  1 "my-stack" --auto-approve
+```
 ### Gitlab TBD
