@@ -26,7 +26,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa && \
         curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 COPY scripts/install_terraform.sh .
-RUN ./install_terraform.sh
+RUN ./install_terraform.sh "$TERRAFORM_VERSION"
     
 RUN apt-get install -y \
         python3.11 \
