@@ -10,30 +10,35 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   
 jobs:
-  version:
-    name: "Version"
-    runs-on: ubuntu-latest
-    outputs:
-      build_meta: ${{ steps.gitversion.outputs.buildMetaData }}
-      build_semver: ${{ steps.gitversion.outputs.semVer }}
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0
-      with:
-        versionSpec: '5.x'
-    - name: Get Version
-      id:   gitversion
-      uses: gittools/actions/gitversion/execute@v0
+  gitversion:
+      name: gitversion
+      runs-on: [self-hosted, worker]
+      outputs:
+        major-minor-patch: ${{ steps.determine_version.outputs.GitVersion_MajorMinorPatch }}
+        full-semver: ${{ steps.determine_version.outputs.GitVersion_FullSemVer }}
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+            
+        - name: Install .NET Core SDK
+          run: sudo apt-get -y install dotnet-sdk-6.0
+  
+        - name: Install GitVersion
+          uses: gittools/actions/gitversion/setup@v3.0.0
+          with:
+            versionSpec: '6.x'
+            
+        - name: Determine Version
+          id: determine_version
+          uses: gittools/actions/gitversion/execute@v3.0.0
 
   build:
     name: "Build"
     permissions:
       contents: read
       packages: write
-    needs: version
+    needs: gitversion
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
