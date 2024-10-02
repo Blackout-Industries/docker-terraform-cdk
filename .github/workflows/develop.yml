@@ -1,4 +1,4 @@
-name: Build.DockerImage
+name: Build.Develop
 
 on:
   push:
@@ -12,7 +12,7 @@ env:
 jobs:
   gitversion:
       name: gitversion
-      runs-on: [self-hosted, worker]
+      runs-on: ubuntu-latest
       outputs:
         major-minor-patch: ${{ steps.determine_version.outputs.GitVersion_MajorMinorPatch }}
         full-semver: ${{ steps.determine_version.outputs.GitVersion_FullSemVer }}
