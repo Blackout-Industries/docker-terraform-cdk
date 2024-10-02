@@ -7,7 +7,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.event.repository.name }}
   
 jobs:
   gitversion:
@@ -44,7 +44,7 @@ jobs:
     - uses: actions/checkout@v3
     
     - name: Install Cosign
-      uses: sigstore/cosign-installer@v3.0.5
+      uses: sigstore/cosign-installer@v3.0.6
     
     - name: Configure 1Password Service Account
       uses: 1password/load-secrets-action/configure@v1
@@ -93,11 +93,29 @@ jobs:
         platforms: linux/amd64,linux/arm64
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        
-    # - name: Install Trivy
-    #   run: |
-    #     curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 
-    # - name: Run Trivy Scan
-    #   run: |
-    #     trivy image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.metadata.outputs.tags }}
+  deploy-dev:
+    name: "Deploy Dev"
+    permissions:
+      contents: read
+      packages: write
+    needs: build
+    environment: develop
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: test
+      run: echo "hi"
+
+  deploy-prod:
+    name: "Deploy Prod"
+    permissions:
+      contents: read
+      packages: write
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - uses: actions/checkout@v3
+    - name: test
+      run: echo "hi"
