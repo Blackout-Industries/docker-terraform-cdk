@@ -1,7 +1,7 @@
 FROM ubuntu:jammy
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG TERRAFORM_VERSION="1.5.4"
+ARG TERRAFORM_VERSION="1.9.7"
 
 LABEL "com.azure.dev.pipelines.agent.handler.node.path"="/usr/local/bin/node"
 
